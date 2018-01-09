@@ -121,6 +121,69 @@ app.get('/strava/activities', function (req,res) {
 		else
 			res.json(err)
 	})
+})
+
+app.get('/strava/speed', function (req,res) {
+    var promises = []
+    console.log(req.query);
+
+    //strava.athlete.listActivities({id: 2802131}, function(err,payload,limits){
+    strava.athlete.listActivities({access_token: req.query._id, metric:req.query.metric}, function(err,activities,limits){
+        var data_count = activities.length;
+        var total_avg_speed = 0;
+
+        if(!err){
+            console.log(limits)
+
+            for (var activity of activities){  // not 'in' activities --> will return index only
+                promises.push(fetchAllAvg (activity.id))
+                //total_avg_speed += activity.average_speed
+            }
+
+            Promise.all(promises).then(function(result) {
+                for (var each_avg of result) {
+                    total_avg_speed += each_avg
+                }
+
+                var avg_speed = total_avg_speed / data_count;
+                console.log(`total_avg_speed = ${total_avg_speed}`)
+                console.log(`data_count =  ${data_count}`)
+
+                // check what do you want to return (kph / mph)
+                if (req.query.metric == 'kph')
+                    res.json({'avg': Math.ceil(convertToKPH(avg_speed))}) 
+                else if (req.query.metric == 'mph')
+                    res.json({'avg': Math.ceil(convertToMPH(avg_speed))}) 
+                else 
+                    res.json({'err': 'Please define metric to use.'})
+
+            })
+            
+        }
+        else
+            res.json(err)
+    })
+
+    var fetchAllAvg = function(id){
+        return new Promise(function (resolve,reject){
+            strava.activities.get({id: id}, function(err, payload, limits){
+                if(!err){
+                    console.log('got one avg: ' + payload.average_speed)
+                    resolve(payload.average_speed);
+                }
+                else
+                    reject (err)
+            });
+        })
+    }
+
+    var convertToKPH = function (mps){
+        return mps * 3.6;
+    }
+    var convertToMPH = function (mps){
+        return (convertToKPH(mps) / 1.6);
+    }
+
 });
 
 app.get('/strava/activity/:id', function (req,res) {
