@@ -6,6 +6,7 @@ import ActivitiesWidgetContainer from '../components/ActivitiesWidgetContainer';
 import ProfileWidgetContainer from '../components/ProfileWidgetContainer';
 import MealsWidgetContainer from '../components/MealsWidgetContainer';
 import SpeedWidgetContainer from '../components/SpeedWidgetContainer';
+import DistanceWidgetContainer from '../components/DistanceWidgetContainer';
 
 import '../styles/App.css';
 import Home from './Home';
@@ -25,13 +26,15 @@ class Stats extends Component {
 			
 			<ProfileWidgetContainer href="" heading="Profile" colspan={2} rowspan={1} token={this.props.location.state.token}/>
 			
-			<SpeedWidgetContainer href="" heading="Average Speed" colspan={2} rowspan={1} token={this.props.location.state.token}/>
+			<DistanceWidgetContainer href="" heading="Distance Traveled" colspan={2} rowspan={1} token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
+
+			<SpeedWidgetContainer href="" heading="Average Speed" colspan={1} rowspan={1} token={this.props.location.state.token}/>
 			
 			<NumberWidgetContainer href="" metric="km" convertUnit="1000" target="distance" heading="Total KM ridden"  token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 			
 			<NumberWidgetContainer href="" metric="hours" convertUnit="3600" target="moving_time" heading="Total Time Spent on saddle" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 
-			<MealsWidgetContainer href="" metric="kg" convertUnit="" target="total_cal" heading="Calories Burned (this month)" colspan={2} rowspan={1} token={this.props.location.state.token}/>
+			<MealsWidgetContainer href="" metric="kg" convertUnit="" target="total_cal" heading="Calories Burned (this month)" colspan={3} rowspan={1} token={this.props.location.state.token}/>
 			
 			<div>
 			 <center>
