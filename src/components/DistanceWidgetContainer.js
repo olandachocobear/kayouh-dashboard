@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Widget from "./Widget";
 import DistanceWidget from "./DistanceWidget";
+import DistanceMetricOption from "./DistanceMetricOption";
+import DistanceCityOption from "./DistanceCityOption";
 
 import axios from 'axios';
 
@@ -26,22 +28,31 @@ class DistanceWidgetContainer extends Component {
 					convertUnit: 1000
 				},
 				{	
-					unit: 'miles',
+					unit: 'mile',
 					convertUnit: 1609.34
 				}
 			],
 			destination: [
 				{	
 					city: 'Bogor',
-					distance: 80
+					distance: {
+						km: 80,
+						mile: 50
+					}
 				},
 				{
 					city: 'Bandung',
-					distance: 200
+					distance: {
+						km: 200,
+						mile: 125
+					}
 				},
 				{
 					city: 'Jogja',
-					distance: 400,
+					distance: {
+						km: 400,
+						mile: 250
+					}
 				},
 			],
 			selectedCityIdx: 0,
@@ -56,10 +67,13 @@ class DistanceWidgetContainer extends Component {
 		displayTotalDistance: true
 	}
 
-	componentwillUpdate(nextProps, nextState){
-		console.log('received total Distance traveled..')
+	componentDidUpdate(nextProps, nextState){
+		// only update loop count when destination is changed..
+		if (nextState.selectedCityIdx != this.state.selectedCityIdx)
+			this.calculateLoopCount(this.state.distance);
 	}
 
+	
 	componentDidMount() {
 		this.fetchData() // kickStart it all!!
 	}
@@ -70,17 +84,19 @@ class DistanceWidgetContainer extends Component {
         this.setState({ loading: true });
 
         // Fetching speed data
-        let url = `${process.env.REACT_APP_STRAVA_API_STATS_URL}?_id=${this.props.token}&athlete_id=${this.props.athlete_id}&metric=${this.state.metric}`;
+        let url = `${process.env.REACT_APP_STRAVA_API_STATS_URL}?_id=${this.props.token}&athlete_id=${this.props.athlete_id}`;
 
         return axios.get(url)
             .then(response => {
                 // Update state with data
                 this.setState({ 
-                	loading: false
+                	loading: false,
+                	distance: response.data.ytd_ride_totals.distance
                  }); 
 
                 // Strava API returns distance in meter..
-                this.convertMetric (response.data.ytd_ride_totals.distance);
+                //this.convertMetric (response.data.ytd_ride_totals.distance);
+                this.calculateLoopCount (this.state.distance)
 
             })
             .catch(error => {
@@ -100,20 +116,27 @@ class DistanceWidgetContainer extends Component {
 		console.log ('================' + convertedDistance)
 			
         // Update state with real distance
+        /*
         this.setState({
         	distance: convertedDistance,
         });
+        */
 
         // count how many loop we've been travelling..
-        this.calculateLoopCount(this.state.distance);
+        //this.calculateLoopCount(this.state.distance);
+
+        return convertedDistance;
     }
 
 	calculateLoopCount(distance) {
+		
+		console.log('re-calculcate loop number..')
 		let selectedCity = this.state.destination[this.state.selectedCityIdx]
-		let calculatedLoop = distance / selectedCity.distance
+		
+		let calculatedLoop = this.convertMetric(distance) / selectedCity.distance[this.state.metric[this.state.selectedMetricIdx].unit]
 		
 		this.setState ({
-			calculatedLoop: calculatedLoop
+			calculatedLoop: calculatedLoop.toFixed(2)
 		});
 
 	}
@@ -123,6 +146,10 @@ class DistanceWidgetContainer extends Component {
         	<Widget loading={this.state.loading}
         		 heading={this.props.heading} colspan={this.props.colspan} 
         		 rowspan={this.props.rowspan}>
+				
+				<DistanceMetricOption selected={this.state.selectedMetricIdx} changeMetric={(newVal)=>this.setState({selectedMetricIdx: newVal})} />
+				
+				<DistanceCityOption selected={this.state.selectedCityIdx} changeCity={(newVal)=>this.setState({selectedCityIdx: newVal})} />
 				
 				<DistanceWidget origin="Jakarta"
 					destination={this.state.destination[this.state.selectedCityIdx].city}

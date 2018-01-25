@@ -1,17 +1,16 @@
 import React from 'react';
-import MtSvgLines from 'react-mt-svg-lines'; 
 
 const DistanceLoopCount = props => {
 
 		console.log ('number of loop: ' + props.value);
 		
 		return(
-			<div>
+			<div style={{marginTop:'145px'}}>
 				<h1>{props.value}x</h1>
 				<h3 
 				  	style={{
-					  display: 'inline',
-					  verticalAlign: 'bottom'	
+					  verticalAlign: 'bottom',
+					  marginTop: '-15px'
 				  	}}
 				>
 					{props.subtext}
