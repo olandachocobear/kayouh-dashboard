@@ -22,14 +22,18 @@ var speed = [
     }
 ]
 
+
 class NumberCountUp extends Component {
 
     constructor(props){
         super(props)
 
+        this.loop = 0;
+
+        this.increment = this.props.increase ? this.props.increase : 1
+
         this.state = {
             counter: this.props.start,
-            increment: (this.props.increase ? this.props.increase : 1),
             max: this.props.end
         }
     }
@@ -41,18 +45,21 @@ class NumberCountUp extends Component {
 
         setTimeout (() => {
             this.setState({
-                counter: this.increment()
-            })
+                counter: this.increase()
+            });
+
+            this.loop++;
+            //console.log('counter: ' + this.state.counter + ' | loop #' + loop + ' | increment: ' + this.increment);
         }, this.adjustSpeed(preset.speed))
     }
 
-    increment() {
+    increase() {
         if ( this.props.decimals ){
-            var nextVal =  parseFloat(this.state.counter) + this.state.increment //without this, will be 0.010.01; with parseInt will be always 0.01 (because integer wil be 0)
+            var nextVal =  parseFloat(this.state.counter) + this.increment //without this, will be 0.010.01; with parseInt will be always 0.01 (because integer wil be 0)
             nextVal = nextVal.toFixed(2)
         }
         else {
-            var nextVal = this.state.counter + this.state.increment
+            var nextVal = this.state.counter + this.increment
         }
 
         return nextVal;
@@ -73,17 +80,49 @@ class NumberCountUp extends Component {
     }
 
     adjustOnBigNum(){
-        return (this.props.end < 10) ? (speed.find((obj) => 
+        // try fasten the speed if loop > 15
+
+        return (this.loop < 15) ? (
+            (this.props.end < 10) ? (speed.find((obj) => 
             obj.preset === 'slow'
         ).speed ) : ( (this.props.end < 100) ? (speed.find((obj) => 
                 obj.preset === 'normal'
-            ).speed / 2) : (speed.find((obj) => 
+            ).speed / 2) : speed.find((obj) => 
                     obj.preset === 'fast'
-                ).speed / 5) )
+                ).speed / 5)
+
+        ) : ( this.loop % 4 == 0 ? this.changeIncrementForVeryBigNum() : 10 );
     }
 
     isJustify(){
         return (this.props.duration==='justify');
+    }
+
+    changeIncrementForVeryBigNum() {
+        
+        //console.log( 'accelerating on loop# ' + loop )
+         
+        // if ((this.state.max-this.state.counter) > this.state.max/2)
+        if ((this.state.max-this.state.counter) > this.increment * 4 * 4 )
+             this.accelerate()
+        else
+             this.deaccelerate()
+    }
+
+    accelerate() {
+        this.increment = this.increment * 2;
+        // console.log('accel to ' + this.increment)
+        return 10;
+    }
+
+    deaccelerate(){
+
+        if(this.increment>1) {
+            this.increment = this.increment / 2;
+            
+            // console.log('decel to ' + this.increment)
+            return 10;
+        }
     }
 
     componentDidMount() {
@@ -113,6 +152,7 @@ class NumberCountUp extends Component {
             <span className="NumberDisplay">
                 <span className="value">
                     {counter}
+                    {this.props.children}
                 </span>
             </span>
         )   

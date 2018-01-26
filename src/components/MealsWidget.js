@@ -6,6 +6,7 @@ import BurgerDisplay from '../components/BurgerDisplay';
 import PizzaDisplay from '../components/PizzaDisplay';
 import Progress from '../components/Progress';
 import Repeat from 'react-repeat-component';
+import CountUp from '../components/NumberCountUp';
 
 //Import styling
 import '../styles/NumberWidget.css';
@@ -60,6 +61,22 @@ class MealsWidget extends Component {
 			*/
 			
 			<div>
+				<h1 style={{
+						float:'right',
+						marginTop: '-74px',
+						paddingBottom:'3px',
+						marginRight: '4.6%',
+						fontSize: '38px',
+						color: 'darkorange',
+						//textShadow: '1px 2px 4px #000000aa',
+						//opacity: '0.9',
+						textDecoration: 'underline'
+
+					}}
+				>
+					<CountUp start={0} end={this.props.value} duration='justify' > <span>Calories</span> </CountUp>
+				</h1>
+
 				<h1> Equals to:</h1>
 				<div>
 					{this.props.foodArr.filter(function(satuan) {

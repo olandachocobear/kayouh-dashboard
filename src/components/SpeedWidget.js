@@ -9,18 +9,20 @@ class SpeedWidget extends Component {
         }
 
 		return (
+				<div style={{textAlign:'center', marginTop:'7%'}}>
 				  <ReactSpeedometer
 					  fluidwidth
 					  maxValue={100}
 					  value={this.props.avgSpeed}
 					  needleColor="lightbrown"
-					  needleTransitionDuration={11000}
+					  needleTransitionDuration={12000}
 					  needleTransition="easeElastic"
-					  startColor="navy"
+					  startColor="#eebbbb"
 					  segments={6}
-					  endColor="blue"
-					  textColor="brown"
+					  endColor="maroon"
+					  textColor="orange"
 				  />
+				</div>
 		)
 	}
 }
