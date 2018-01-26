@@ -55,7 +55,7 @@ class DistanceWidgetContainer extends Component {
 					}
 				},
 			],
-			selectedCityIdx: 0,
+			selectedCityIdx: 2,
 			selectedMetricIdx: 0,
 			calculatedLoop: null
 		}

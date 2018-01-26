@@ -1,4 +1,5 @@
 import React from 'react';
+import CountUp from './NumberCountUp';
 
 const DistanceLoopCount = props => {
 
@@ -6,7 +7,9 @@ const DistanceLoopCount = props => {
 		
 		return(
 			<div style={{marginTop:'145px'}}>
-				<h1>{props.value}x</h1>
+				<h1>
+					<CountUp start={0} end={props.value} duration='justify' increase={0.1} decimals />x
+				</h1>
 				<h3 
 				  	style={{
 					  verticalAlign: 'bottom',

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 // Import components
 import Widget from '../components/Widget';
-import NumberDisplay from '../components/NumberDisplay';
 import Progress from '../components/Progress';
+import CountUp from '../components/NumberCountUp';
 
 //Import styling
 import '../styles/NumberWidget.css';
@@ -17,7 +17,8 @@ class NumberWidget extends Component {
         }
 
         return <div className="NumberWidget">
-            <NumberDisplay max={this.props.max} value={this.props.value} />
+            <CountUp start={0} end={this.props.value} duration='justify' />
+
             {/* Conditionally show the progress bar */}
             {this.showProgress()} 
 			<h3 >
