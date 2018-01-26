@@ -199,7 +199,16 @@ app.get('/strava/activity/:id', function (req,res) {
 
 app.get('/strava/calories/', function (req,res) {
 	var promises = [];
-	strava.athlete.listActivities({access_token: req.query._id}, function(err,activities,limits){
+    
+    // try to limit activities only to current month:
+    var today = new Date();
+    
+    var startOfMonth = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).substr(-2) + '-' + '01T00:00:00Z'
+    
+    // seconds after UNIX epoch (required format by Strava API)
+    var startOfMonthUNIX = new Date(startOfMonth).getTime() / 1000
+
+    strava.athlete.listActivities({after:startOfMonthUNIX, access_token: req.query._id}, function(err,activities,limits){
 		if(!err){
             console.log(activities);
 
