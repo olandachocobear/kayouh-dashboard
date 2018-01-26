@@ -15,7 +15,9 @@ class DistanceWidget extends Component {
 
 		return (
 		  <div style={{display: 'inline-flex'}}>  
-			 <DistanceCurve origin={this.props.origin} destination={this.props.destination} />
+			 <DistanceCurve origin={this.props.origin} 
+			 	destination={this.props.destination} 
+			 	color={this.props.color}/>
 	
 			 <DistanceLoopCount value={this.props.loop} 
 			 	subtext={this.getSubText()}/>

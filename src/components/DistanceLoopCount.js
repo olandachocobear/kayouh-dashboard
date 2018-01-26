@@ -6,7 +6,7 @@ const DistanceLoopCount = props => {
 		console.log ('number of loop: ' + props.value);
 		
 		return(
-			<div style={{marginTop:'145px'}}>
+			<div style={{marginTop:'164px', marginLeft:'8px'}}>
 				<h1>
 					<CountUp start={0} end={props.value} duration='justify' increase={0.1} decimals />x
 				</h1>

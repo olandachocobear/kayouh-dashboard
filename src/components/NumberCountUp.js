@@ -32,7 +32,10 @@ class NumberCountUp extends Component {
 
         this.increment = this.props.increase ? this.props.increase : 1
 
+        this.delay = this.props.delay ? this.props.delay : 0
+
         this.state = {
+            countStart: false,
             counter: this.props.start,
             max: this.props.end
         }
@@ -116,7 +119,6 @@ class NumberCountUp extends Component {
     }
 
     deaccelerate(){
-
         if(this.increment>1) {
             this.increment = this.increment / 2;
             
@@ -125,8 +127,23 @@ class NumberCountUp extends Component {
         }
     }
 
+    showCounter() {
+        if (this.state.countStart) {
+            return (
+                <span className="value">
+                    {this.state.counter} 
+                    {this.props.children}
+                </span>
+            )
+        }
+    }
+
     componentDidMount() {
-        this.countUp()
+        setTimeout(()=>{
+            this.setState({
+                countStart: true
+            });
+        }, this.delay);
     }
 
     componentWillUpdate(nextProps, nextState){
@@ -150,10 +167,7 @@ class NumberCountUp extends Component {
         var {counter} = this.state;
         return (        
             <span className="NumberDisplay">
-                <span className="value">
-                    {counter}
-                    {this.props.children}
-                </span>
+                {this.showCounter()}
             </span>
         )   
     }

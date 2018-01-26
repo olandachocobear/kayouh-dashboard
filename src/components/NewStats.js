@@ -20,27 +20,27 @@ class Stats extends Component {
       return (
 		<div className="App">
   
-			<ActivitiesWidgetContainer href="" heading="Activities (Last 6)" rowspan={3} token={this.props.location.state.token}/>
+			<ProfileWidgetContainer href="" heading="Profile" colspan={1} rowspan={1} token={this.props.location.state.token}/>
+			
+			<MealsWidgetContainer href="" metric="kg" convertUnit="" target="total_cal" heading="Calories Burned (this month)" colspan={3} rowspan={1} token={this.props.location.state.token}/>
 
-			<ProfileWidgetContainer href="" heading="Profile" colspan={2} rowspan={1} token={this.props.location.state.token}/>
+			<ActivitiesWidgetContainer href="" heading="Activities (Last 6)" rowspan={2} token={this.props.location.state.token}/>
+
+			<NumberWidgetContainer href="" target="count" metric="" heading="Number of Rides (this Year)" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 			
 			<SpeedWidgetContainer href="" heading="Average Speed" colspan={1} rowspan={1} token={this.props.location.state.token}/>
 
-			<NumberWidgetContainer href="" metric="km" convertUnit="1000" target="distance" heading="Total KM ridden"  token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
-			
-			<DistanceWidgetContainer href="" heading="Distance Traveled" colspan={2} rowspan={1} token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
-			
-			<NumberWidgetContainer href="" target="count" metric="" heading="Number of Rides (this Year)" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
-			
 			<NumberWidgetContainer href="" metric="hours" convertUnit="3600" target="moving_time" heading="Total Time Spent on saddle" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 
+			<NumberWidgetContainer href="" metric="km" convertUnit="1000" target="distance" heading="Total KM ridden"  token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
+
+			<DistanceWidgetContainer href="" heading="Distance Traveled" colspan={2} rowspan={1} token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
+			
 			<div>
 			 <center>
 			  <img src={require('../assets/api_logo_pwrdBy_strava_horiz_light.png')} alt="strava-logo" />
 			 </center>
 			</div>
-
-			<MealsWidgetContainer href="" metric="kg" convertUnit="" target="total_cal" heading="Calories Burned (this month)" colspan={4} rowspan={1} token={this.props.location.state.token}/>
 
 		</div>
       );

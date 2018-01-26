@@ -33,7 +33,7 @@ class ListWidget extends Component {
 
         // Get min/max values for progress bar
         let min = 0;
-        let max = sortedItems[0].distance;
+        let max = sortedItems[0].distance * 1.1;
 
 		console.log(this.props.listItems[0]['start_date_local'])
 
@@ -41,7 +41,7 @@ class ListWidget extends Component {
             <ListDisplay>
                 {/* Add a ListItem for each piece of data */}
                 {this.props.listItems.splice(0,6).map((item, index) => 
-					<ListItem index={index+1} key={item.id} label={item.name} value={item.distance} min={min} max={max} tanggal={item.start_date_local} />
+					<ListItem index={index+1} id={item.id} key={item.id} label={item.name} value={item.distance} min={min} max={max} tanggal={item.start_date_local} />
 					)
 				}
             </ListDisplay>

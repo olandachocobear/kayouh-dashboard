@@ -38,21 +38,24 @@ class DistanceWidgetContainer extends Component {
 					distance: {
 						km: 80,
 						mile: 50
-					}
+					},
+					color: '#aa4444'
 				},
 				{
 					city: 'Bandung',
 					distance: {
 						km: 200,
 						mile: 125
-					}
+					},
+					color: '#44aaaa'
 				},
 				{
 					city: 'Jogja',
 					distance: {
 						km: 400,
 						mile: 250
-					}
+					},
+					color: '#bb55bb'
 				},
 			],
 			selectedCityIdx: 2,
@@ -155,6 +158,7 @@ class DistanceWidgetContainer extends Component {
 					destination={this.state.destination[this.state.selectedCityIdx].city}
 					loop={(!this.state.calculatedLoop) ? '' : this.state.calculatedLoop } 
 					metric={this.state.metric[this.state.selectedMetricIdx].unit} 
+					color={this.state.destination[this.state.selectedCityIdx].color}
 					legend={this.props.displayTotalDistance} />
 
 			</Widget>			
