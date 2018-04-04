@@ -4,9 +4,27 @@ import React, { Component } from 'react';
 import '../styles/NumberDisplay.css';
 
 class BurgerDisplay extends Component {
+	state = {
+		visibility: "hidden"
+	}
+
+	componentWillMount () {
+		if(this.props.wait!=undefined) {
+	        var that = this;
+	        setTimeout(function() {
+	            that.show();
+	        }, that.props.wait);
+	    }
+    }
+    
+    show() {
+        this.setState({visibility : "visible"});
+    }
+
     render() {
         return (
-            <img src={require('../assets/if_Food_C206_2427852.png')} alt="burger" />
+            <img style={{"visibility": this.state.visibility}} 
+            	src={require('../assets/if_Food_C206_2427852_small.png')} alt="burger" />
         );
     }
 }

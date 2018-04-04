@@ -15,7 +15,8 @@ class MealsWidgetContainer extends Component {
             loading: false,
             min: undefined,
             max: undefined,
-            value: undefined
+            value: undefined,
+            period: 'month',
         }
 
         // Bind function to refer to component
@@ -30,10 +31,32 @@ class MealsWidgetContainer extends Component {
         });
     }
 
+    // Change accumulation period
+    changePeriod = (new_period) => {
+        console.log(new_period)
+        console.log('changing meals period..')
+        if(new_period != this.state.period){ 
+            this.setState({
+                period: new_period
+            })
+            
+            setTimeout(this.getData, 250);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.value != undefined){
+        
+            //this.getData();
+            console.log(prevState)
+            console.log(this.state)
+        }
+    }
+
     // Fetch new data
     getData() {
 		
-		let url = this.props.href !== '' ? this.props.href : 'http://localhost:3001/strava/calories?_id=' + this.props.token
+		let url = this.props.href !== '' ? this.props.href : `${process.env.REACT_APP_STRAVA_API_CALORIES_URL}?_id=${this.props.token}&period=${this.state.period}`
 
         // Tell the Widget component we're currently loading
         this.setState({ loading: true });
@@ -59,7 +82,7 @@ class MealsWidgetContainer extends Component {
     render() {
         return (
             // Render the number widget
-            <MealsWidget heading={this.props.heading} colspan={this.props.colspan} rowspan={this.props.rowspan} value={this.state.value} loading={this.state.loading} metric={this.props.metric}/>
+            <MealsWidget optionsHandler={(newPeriod) => this.changePeriod(newPeriod)} heading={this.props.heading} colspan={this.props.colspan} rowspan={this.props.rowspan} value={this.state.value} loading={this.state.loading} metric={this.props.metric}/>
         );
     }
 }
