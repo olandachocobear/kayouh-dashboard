@@ -6,7 +6,7 @@ import '../styles/NumberDisplay.css';
 var speed = [
     {
         preset: 'fast',
-        speed: 50
+        speed: 20
     },
     {
         preset: 'normal',
@@ -92,7 +92,7 @@ class NumberCountUp extends Component {
                 obj.preset === 'normal'
             ).speed / 2) : speed.find((obj) => 
                     obj.preset === 'fast'
-                ).speed / 5)
+                ).speed / 4)
 
         ) : ( this.loop % 4 == 0 ? this.changeIncrementForVeryBigNum() : 10 );
     }
@@ -130,7 +130,7 @@ class NumberCountUp extends Component {
     showCounter() {
         if (this.state.countStart) {
             return (
-                <span className="value">
+                <span className="value" style={this.props.fontSize!=undefined ? {fontSize: `${this.props.fontSize}px`} : {}} >
                     {this.state.counter} 
                     {this.props.children}
                 </span>

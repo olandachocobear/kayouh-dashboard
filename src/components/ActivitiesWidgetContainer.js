@@ -33,7 +33,7 @@ class ListWidgetContainer extends Component {
         // Tell the Widget component we're currently loading
         this.setState({ loading: true });
 
-        return axios.get('http://localhost:3001/strava/activities?_id=' + this.props.token)
+        return axios.get(`${process.env.REACT_APP_STRAVA_API_ACTIVITIES_URL}?_id=${this.props.token}`)
             .then(response => {
                 // Update state with data
                 this.setState({ loading: false, values: response.data });
@@ -48,7 +48,7 @@ class ListWidgetContainer extends Component {
     render() {
         return (
             // Render the list widget
-            <ListWidget heading={this.props.heading} colspan={this.props.colspan} rowspan={this.props.rowspan} listItems={this.state.values} loading={this.state.loading} />
+            <ListWidget qty={this.props.qty} heading={this.props.heading} colspan={this.props.colspan} rowspan={this.props.rowspan} listItems={this.state.values} loading={this.state.loading} />
         );
     }
 }

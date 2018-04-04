@@ -33,7 +33,7 @@ class ListWidget extends Component {
 
         // Get min/max values for progress bar
         let min = 0;
-        let max = sortedItems[0].value;
+        let max = sortedItems[this.props.listItems.length].value;
 
         return (
             <ListDisplay>

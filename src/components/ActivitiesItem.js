@@ -25,7 +25,7 @@ class ListItem extends Component {
                 <div className="value" style={{marginLeft: '4px', marginRight:'7px', paddingRight:'0px'}}>
                     <CountUp start={0} 
                             end={Math.ceil(this.props.value/1000)} 
-                            duration='justify'
+                            duration='fast'
                             delay={this.props.index * 200}> 
                         k 
                     </CountUp>

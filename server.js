@@ -203,14 +203,30 @@ app.get('/strava/calories/', function (req,res) {
     // try to limit activities only to current month:
     var today = new Date();
     
-    var startOfMonth = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).substr(-2) + '-' + '01T00:00:00Z'
-    
+    var startOfYear = today.getFullYear() + '-01-01T00:00:00Z';
+    var startOfMonth = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).substr(-2) + '-' + '01T00:00:00Z';
+    //var startOfWeek = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).substr(-2) + '-' + (today.getDate() + (today.getDay() == 0?-6:1)-today.getDay())  + 'T00:00:00Z'
+
+    today.setDate(today.getDate()-7)
+    var startOfWeek = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).substr(-2) + '-' + today.getDate() + 'T00:00:00Z';
+
     // seconds after UNIX epoch (required format by Strava API)
     var startOfMonthUNIX = new Date(startOfMonth).getTime() / 1000
+    var startOfWeekUNIX = new Date(startOfWeek).getTime() / 1000
+    var startOfYearUNIX = new Date(startOfYear).getTime() / 1000
 
-    strava.athlete.listActivities({after:startOfMonthUNIX, access_token: req.query._id}, function(err,activities,limits){
+    if(req.query.period == 'week')
+        start_date = startOfWeekUNIX
+    else if(req.query.period == 'month')
+        start_date = startOfMonthUNIX
+    else if(req.query.period == 'year')
+        start_date = startOfYearUNIX
+
+    console.log(startOfMonth + " // " + startOfWeek)
+
+    strava.athlete.listActivities({after:start_date, access_token: req.query._id}, function(err,activities,limits){
 		if(!err){
-            console.log(activities);
+            //console.log(activities);
 
 			for (var activity of activities){  // not 'in' activities --> will return index only
 				promises.push (fetchCalories (activity.id));

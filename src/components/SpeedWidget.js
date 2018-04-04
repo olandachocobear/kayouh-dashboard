@@ -9,7 +9,7 @@ class SpeedWidget extends Component {
         }
 
 		return (
-				<div style={{textAlign:'center', marginTop:'7%'}}>
+				<div style={{textAlign:'center', marginTop:'3%'}}>
 				  <ReactSpeedometer
 					  fluidwidth
 					  maxValue={100}
@@ -21,6 +21,7 @@ class SpeedWidget extends Component {
 					  segments={6}
 					  endColor="maroon"
 					  textColor="orange"
+					  height={200}
 				  />
 				</div>
 		)
