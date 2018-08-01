@@ -4,7 +4,7 @@ ehthumbs.db
 
 # Folder config file
 Desktop.ini
-
+bower_components
 src/build/
 src/build1/
 node_modules/

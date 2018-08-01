@@ -70,7 +70,7 @@ const AuthContainer = React.createClass({
 		
 		if (this.state.tokenRetrieved)
 			return (
-				<Redirect to="/stats/" />
+				<Redirect to="/stats" />
 			)
 
 		return(

@@ -24,13 +24,13 @@ class Stats extends Component {
 			
 			<MealsWidgetContainer href="" metric="kg" convertUnit="" target="total_cal" heading="Calories Burned (this month)" colspan={3} rowspan={1} token={this.props.location.state.token}/>
 
-			<ActivitiesWidgetContainer href="" heading="Activities (Last 6)" rowspan={2} token={this.props.location.state.token}/>
+			<ActivitiesWidgetContainer href="" qty="6" heading="Activities (Last 6)" rowspan={2} token={this.props.location.state.token}/>
 
 			<NumberWidgetContainer href="" target="count" metric="" heading="Number of Rides (this Year)" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 			
 			<SpeedWidgetContainer href="" heading="Average Speed" colspan={1} rowspan={1} token={this.props.location.state.token}/>
 
-			<NumberWidgetContainer href="" metric="hours" convertUnit="3600" target="moving_time" heading="Total Time Spent on saddle" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
+			<NumberWidgetContainer href="" metric="hours" convertUnit="3600" target="moving_time" heading="Time Spent (this Year)" token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 
 			<NumberWidgetContainer href="" metric="km" convertUnit="1000" target="distance" heading="Total KM ridden"  token={this.props.location.state.token} athlete_id={this.props.match.params.athlete_id}/>
 
