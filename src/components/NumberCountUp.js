@@ -157,9 +157,11 @@ class NumberCountUp extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.counter < this.state.max){
-            this.countUp()
+        if (parseInt(this.state.counter) < parseInt(this.state.max)){
+            this.countUp()            
         }
+        else
+            console.log('max: '  + this.state.max +'; stopping countup. on: ' + this.state.counter)
     }
 
 
