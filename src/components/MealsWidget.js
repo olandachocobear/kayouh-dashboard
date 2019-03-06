@@ -9,6 +9,7 @@ import PizzaDisplayDelayed from '../components/PizzaDisplayDelayed';
 import Progress from '../components/Progress';
 import Repeat from 'react-repeat-component';
 import CountUp from '../components/NumberCountUp';
+import Configs from '../dash_config';
 
 //Import styling
 import '../styles/NumberWidget.css';
@@ -87,8 +88,8 @@ class MealsWidget extends Component {
 
     // funny how `renderFood() {` will return unidentified props Value
     renderFood = value => {
-    	let burgerCount = Math.floor( this.props.value / 550 )
-		let pizzaCount = Math.floor( this.props.value / 300 )
+    	let burgerCount = Math.floor( this.props.value / Configs.CALORIES.BURGER )
+		let pizzaCount = Math.floor( this.props.value / Configs.CALORIES.PIZZA )
 	
     	for(let i=0; i<burgerCount; i++){
 			console.log('adding burger icon...')

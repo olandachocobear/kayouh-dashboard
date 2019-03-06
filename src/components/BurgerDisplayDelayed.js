@@ -4,6 +4,7 @@ import BurgerDisplay from '../components/BurgerDisplay';
 // Import styling
 import '../styles/NumberDisplay.css';
 import '../styles/NumberWidget.css';
+import Configs from '../dash_config';
 
 class BurgerDisplayDelayed extends Component {
 
@@ -17,7 +18,7 @@ class BurgerDisplayDelayed extends Component {
 
     				// make sure its time of show gradually increase
     				last = last + addition;
-					addition=addition/1.28;
+					addition=addition/Configs.DELAY.BURGER;
     				
     				return (
     					<div key={idx} className="mealItem" >

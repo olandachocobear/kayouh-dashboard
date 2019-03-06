@@ -4,6 +4,7 @@ import PizzaDisplay from '../components/PizzaDisplay';
 // Import styling
 import '../styles/NumberDisplay.css';
 import '../styles/NumberWidget.css';
+import Configs from '../dash_config';
 
 class PizzaDisplayDelayed extends Component {
 
@@ -17,7 +18,7 @@ class PizzaDisplayDelayed extends Component {
 
     				// make sure its time of show gradually increase
     				last = last + addition;
-					addition=addition/1.25;
+					addition=addition/Configs.DELAY.PIZZA;
     				
     				return (
     					<div key={idx} className="mealItem" >
