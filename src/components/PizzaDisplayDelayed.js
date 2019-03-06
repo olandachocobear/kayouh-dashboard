@@ -20,7 +20,7 @@ class PizzaDisplayDelayed extends Component {
 					addition=addition/1.25;
     				
     				return (
-    					<div className="mealItem" >
+    					<div key={idx} className="mealItem" >
     						<PizzaDisplay wait={last} />
     					</div>
     				);
