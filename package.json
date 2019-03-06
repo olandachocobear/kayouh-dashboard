@@ -9,7 +9,9 @@
     "create-react-app": "^1.4.3",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
+    "fs": "0.0.1-security",
     "mongoose": "^4.13.7",
+    "net": "^1.0.2",
     "react": "^15.4.2",
     "react-chartjs-2": "^2.0.5",
     "react-d3-speedometer": "^0.2.2",
@@ -21,8 +23,10 @@
     "react-router-dom": "^4.3.1",
     "react-script": "^2.0.5",
     "react-selectize": "^3.0.1",
-    "react-transition-group": "^2.4.0",
-    "strava-v3": "^1.14.0"
+    "react-transition-group": "^1.2.0",
+    "strava-v3": "^1.14.0",
+    "tls": "0.0.1",
+    "yarn": "^1.13.0"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
@@ -32,7 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "serve": "node server.js",
+    "serve": "node --inspect server.js",
     "serve-delayed": "node server.js delayresponse"
   }
 }
