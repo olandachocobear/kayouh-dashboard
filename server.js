@@ -69,7 +69,8 @@ app.get('/users/', function(req,res,next) {
 });
 
 app.get('/user/:id', function(req,res,next) {
-    Users.findById(req.params.id, function(err, user){
+    Users.findOne({athlete_id: req.params.id}, function(err, user){
+    // Users.findById(req.params.id, function(err, user){
         if(err)
             return next(err);
         res.json(user);
