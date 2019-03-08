@@ -11,9 +11,20 @@ class Stats extends Component {
 		this.state = {
 			users: [123]
 		}
+		this.refreshList = this.refreshList.bind(this);
 	}
 
 	componentDidMount () {
+		this.refreshList()
+	}
+
+	componentWillUpdate (nextProps, nextState) {
+		console.log ('ada State baru:')
+		console.log (nextState)
+		console.log('re-render')
+	}
+
+	refreshList () {
 		let url = "http://localhost:3001/users";
 		return axios.get(url)
 			.then(res => {
@@ -23,13 +34,8 @@ class Stats extends Component {
 			});
 	}
 
-	componentWillUpdate (nextProps, nextState) {
-		console.log ('ada State baru:')
-		console.log (nextState)
-		console.log('re-render')
-	}
-
 	showList () {
+		var _this=this; // so we can refer this from inside 'map' below
 		return(
 		  <div>
 		  <Link to={{
@@ -44,7 +50,11 @@ class Stats extends Component {
 
 			{this.state.users.map(function(user, urut){
 				return (
-					<User key={urut} id={user.athlete_id} token={user.token} nama={user.athlete_name} />
+					<User key={urut} 
+						id={user.athlete_id} 
+						token={user.token} 
+						nama={user.athlete_name} 
+						toRefresh={_this.refreshList} />
 				)
 			})
 			}
@@ -54,7 +64,7 @@ class Stats extends Component {
 
     render() {
       return (
-		<ul>
+		<ul>	
 			{this.showList()}
 			
     		<li><a href="https://www.strava.com/oauth/authorize?client_id=21292&response_type=code&redirect_uri=http://localhost:3000/authorization&approval_prompt=force">

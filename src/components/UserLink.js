@@ -30,7 +30,8 @@ const UserLink = React.createClass({
 		// Post request ..
 		return axios.delete(url)
 				.then(response => {
-					console.log(response)
+					if (response.data.ok) // check if success delete
+						this.props.toRefresh();
 		}).catch(failure => {
 			console.log (failure)
 		});
