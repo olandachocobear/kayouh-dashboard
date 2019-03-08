@@ -80,11 +80,22 @@ app.get('/user/:id', function(req,res,next) {
 app.post('/user/', function(req,res,next) {
     console.log(req.body);
     
+    /*
     Users.create(req.body, function(err, result){ //'body', due to POST
         if(err)
             return next(err);
         res.json(result);
     })
+    */
+   Users.findOneAndUpdate({
+       athlete_id: req.body.athlete_id
+    }, req.body, {upsert: true, new: true}, function(err, result){
+        if(err) 
+            return next(err);  
+        if (result.isNew) // if user's not already on DB
+            console.log(`new athlete's added. (${result.athlete_id})`); 
+        res.json(result);
+   })
 });
 
 
