@@ -38,7 +38,7 @@ db.on('open', function(){
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST,PUT"); // tambahan untuk preflight error -> AXIOS request from Front (dia nembak OPTIONS dulu awalnya, ngecek domain eligible or not..)
+    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST,PUT,DELETE"); // tambahan untuk preflight error -> AXIOS request from Front (dia nembak OPTIONS dulu awalnya, ngecek domain eligible or not..)
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"); // INI IMPORTANT JUGA VRO!!
 
     if(process.argv.indexOf("delayresponse")>-1) {
@@ -98,6 +98,23 @@ app.post('/user/', function(req,res,next) {
    })
 });
 
+app.delete('/user/:athlete_id', function(req,res,next) {
+    var {athlete_id} = req.params;
+
+    //Users.deleteOne(req.body) // --> ini gak bisa, karena ga bisa attach body ke 'DELETE'
+    
+    Users.deleteOne(req.params, function(err, result){
+        if (err)
+            console.log(err)
+        else if (result.deletedCount) {
+            console.log(`User #${athlete_id} has been deleted.`)
+            res.json(result);
+        }
+        else {
+            console.log(`Delete user #${athlete_id}, fails`);
+        }
+    })
+})
 
 app.get('/strava/profile', function (req,res) {
 	strava.athlete.get({access_token: req.query._id}, function(err,payload,limits){
