@@ -89,11 +89,11 @@ app.post('/user/', function(req,res,next) {
     */
    Users.findOneAndUpdate({
        athlete_id: req.body.athlete_id
-    }, req.body, {upsert: true, rawResult: true}, function(err, result){
+    }, req.body, {upsert: true, rawResult: true, new: true}, function(err, result){
         if(err) 
             return next(err);  
         if (!result.lastErrorObject.updatedExisting) // if the added athlete was not exist.
-            console.log(`new athlete's added. (${req.body.athlete_id})`); 
+            console.log(`new athlete's added - ${result.value.athlete_name}.`); 
         res.json(result);
    })
 });
