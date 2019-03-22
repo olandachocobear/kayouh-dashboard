@@ -26,9 +26,10 @@ const StatsHome = React.createClass({
  	},
 
 	render() {
+		let isLoggedIn = false;
 
-		console.log(this.props.match)
-
+		console.log("match" + JSON.stringify(this.props.match))
+		console.log("location: " + JSON.stringify(this.props.location))
 		const { location } = this.props
 	    const isModal = !!(
 	      location.state &&
@@ -43,7 +44,7 @@ const StatsHome = React.createClass({
 				    //define different Views, depending of routes..
 				    //Route #1..
 				    <Route exact path={this.props.match.url} render={()=> (<div>
-				    	<h2> Empty Page. No Athletes selected!</h2>
+				    	<h2> Please Select Athletes:</h2>
 				    	<UserList />
 
 				    	<br/>
@@ -62,7 +63,33 @@ const StatsHome = React.createClass({
 				    <Route path='/stats/signup/' component={Signup}/>
 
 				    //Route #2b (this original direct to athlete got pushed because now there's stats-signup)..
-				    <Route path={`${this.props.match.url}/:athlete_id`} component={Stats}/>
+				    {/* <Route path={`${this.props.match.url}/:athlete_id`} component={Stats}/> */}
+
+						{/* Children option #1 */}
+						{/* <Route component={AuthedPagesContainer} children={
+							<Switch>
+									<Route path={`/stats/:athlete_id`} component={Stats}/>	
+									<Route path={`/profile/:athlete_id`} component={Stats}/>							
+							</Switch>
+						}>		
+						</Route> */}
+
+						{/* Children option #2 */}
+						<Route children={(props) => /* will return 'location', 'match', and 'history' */
+							{
+								if (isLoggedIn) 
+									return (
+										<Switch>
+											<Route path={`/stats/:athlete_id`} component={Stats}/>	
+											<Route path={`/profile/:athlete_id`} component={Stats}/>
+										</Switch>
+								)
+								else
+									return (<div>You need to be logged in first.</div>)
+							}		
+						}>
+						</Route>
+
 
 				    <Route render={()=> (<h2> Stats missing.</h2>)}/>
 				</Switch>
