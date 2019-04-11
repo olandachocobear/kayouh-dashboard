@@ -7,12 +7,23 @@ import Stats from './NewStats';
 import UserList from './UserList';
 import SignupModal from './SignupModal';
 import Signup from './Signup';
+import ProtectedPaths from './ProtectedPaths'
 
 //const StatsHome = ({ match}) => { // changed with createClass
 
 const StatsHome = React.createClass({
 
-	
+	RouteNest(props){ 
+		return (
+			<Route exact={props.exact} 
+						path={props.path} 
+						render={ p => <props.component {...p} 
+													children={props.children}/>
+						} 
+			/>
+		)
+	},
+
 	componentWillUpdate(nextProps) {
 		console.log('going to change Props..')
 		console.log(nextProps)
@@ -90,6 +101,11 @@ const StatsHome = React.createClass({
 						}>
 						</Route>
 
+						{/* Children option #3 : using custom-made Function */}
+						{/* <RouteNest component={ProtectedPaths}>
+							<RouteNest  path={'/stats/:athlete_id'} component={Stats}/>
+							<RouteNest  path={'/profile/:athlete_id'} component={Stats}/>
+						</RouteNest> */}
 
 				    <Route render={()=> (<h2> Stats missing.</h2>)}/>
 				</Switch>
