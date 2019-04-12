@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Route, Switch, Link} from 'react-router-dom';
+import {Route, Switch, Link, Redirect} from 'react-router-dom';
 import '../styles/App.css';
 
 import Stats from './NewStats';
@@ -11,18 +11,27 @@ import ProtectedPaths from './ProtectedPaths'
 
 //const StatsHome = ({ match}) => { // changed with createClass
 
-const StatsHome = React.createClass({
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100) // fake async
+  },
+  signout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100) // fake async
+  }
+}
 
-	RouteNest(props){ 
-		return (
-			<Route exact={props.exact} 
-						path={props.path} 
-						render={ p => <props.component {...p} 
-													children={props.children}/>
-						} 
-			/>
-		)
-	},
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    fakeAuth.isAuthenticated === true
+      ? <Component {...props} />
+      : <Redirect to='/' />
+  )} />
+)
+
+const StatsHome = React.createClass({
 
 	componentWillUpdate(nextProps) {
 		console.log('going to change Props..')
@@ -86,7 +95,7 @@ const StatsHome = React.createClass({
 						</Route> */}
 
 						{/* Children option #2 */}
-						<Route children={(props) => /* will return 'location', 'match', and 'history' */
+						{/* <Route children={(props) => // will return 'location', 'match', and 'history'
 							{
 								if (isLoggedIn) 
 									return (
@@ -99,13 +108,16 @@ const StatsHome = React.createClass({
 									return (<div>You need to be logged in first.</div>)
 							}		
 						}>
-						</Route>
+						</Route> */}
 
 						{/* Children option #3 : using custom-made Function */}
-						{/* <RouteNest component={ProtectedPaths}>
-							<RouteNest  path={'/stats/:athlete_id'} component={Stats}/>
-							<RouteNest  path={'/profile/:athlete_id'} component={Stats}/>
+						{/* <RouteNest component>
+							<RouteNest path={'/stats/:athlete_id'} component={Stats}/>
+							<RouteNest path={'/stats/:athlete_id/edit'} component={Stats}/>
 						</RouteNest> */}
+
+						{/* Using protectedRoute  */}
+						<PrivateRoute path={'/stats/:athlete_id'} component={Stats}/>
 
 				    <Route render={()=> (<h2> Stats missing.</h2>)}/>
 				</Switch>
